@@ -1,147 +1,183 @@
-package com.mycompany.mavenproject2;
-
 import java.util.Scanner;
 
-public class Nomina2026 {
+public class NominaFebrero2026 {
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        String[][] empleados = new String[10][4];
-        double[][] pagos = new double[10][9];
+        String[] codigo = new String[10];
+        String[] depto = new String[10];
+        String[] nombre = new String[10];
+        String[] apellido = new String[10];
 
+        double[] salario = new double[10];
+        double[] prestamo = new double[10];
+        int[] anio = new int[10];
+
+        int cantidad = 0;
         int opcion;
 
         do {
 
-            System.out.println("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            System.out.println("        EMPRESA XYZ");
-            System.out.println("        Valores en RD$");
-            System.out.println("        Nomina Febrero 2026");
-            System.out.println("================================================================");
+            System.out.println("\n=========================================");
+            System.out.println("        EMPRESA Juliana S.R.L");
+            System.out.println("        NOMINA FEBRERO 2026");
+            System.out.println("        MONEDA: RD$");
+            System.out.println("=========================================");
             System.out.println("1. Crear Nomina");
             System.out.println("2. Modificar Registro");
-            System.out.println("3. Mostrar Nomina");
+            System.out.println("3. Ver Nomina");
             System.out.println("4. Salir");
-            System.out.print("Seleccione una opcion: ");
+            System.out.print("Opcion: ");
             opcion = sc.nextInt();
 
             switch (opcion) {
 
-                case 1 -> {
-                    sc.nextLine();
+                // CREAR NOMINA
+                case 1:
 
-                    for (int i = 0; i < 10; i++) {
+                    char seguir;
 
-                        System.out.println("\nEmpleado #" + (i + 1));
+                    do {
+
+                        if (cantidad == 10) {
+                            System.out.println("Maximo 10 empleados.");
+                            break;
+                        }
+
+                        sc.nextLine();
+
+                        System.out.println("\nEmpleado #" + (cantidad + 1));
 
                         System.out.print("Departamento/Puesto: ");
-                        empleados[i][1] = sc.nextLine();
+                        depto[cantidad] = sc.nextLine();
 
                         System.out.print("Nombre: ");
-                        empleados[i][2] = sc.nextLine();
+                        nombre[cantidad] = sc.nextLine();
 
                         System.out.print("Apellido: ");
-                        empleados[i][3] = sc.nextLine();
+                        apellido[cantidad] = sc.nextLine();
 
-                        System.out.print("Año Ingreso: ");
-                        int year = sc.nextInt();
+                        System.out.print("Salario: ");
+                        salario[cantidad] = sc.nextDouble();
 
-                        empleados[i][0] = (i + 1) + ""
-                                + empleados[i][2].toLowerCase().charAt(0)
-                                + empleados[i][3].toUpperCase().charAt(0)
-                                + year;
+                        System.out.print("Prestamo (0 si no tiene): ");
+                        prestamo[cantidad] = sc.nextDouble();
 
-                        System.out.print("Salario RD$: ");
-                        pagos[i][0] = sc.nextDouble();
+                        System.out.print("Año ingreso: ");
+                        anio[cantidad] = sc.nextInt();
 
-                        System.out.print("Descuento Prestamo (0 si no tiene): ");
-                        pagos[i][1] = sc.nextDouble();
+                        codigo[cantidad] = (cantidad + 1) + "-"
+                                + nombre[cantidad].toUpperCase().charAt(0)
+                                + apellido[cantidad].toUpperCase().charAt(0)
+                                + "-" + anio[cantidad];
 
-                        calcularDescuentos(pagos, i);
-                        sc.nextLine();
-                    }
+                        cantidad++;
 
-                    System.out.println("\nNomina creada correctamente.");
-                }
+                        if (cantidad < 10) {
+                            System.out.print("¿Agregar otro? (s/n): ");
+                            seguir = sc.next().toLowerCase().charAt(0);
+                        } else {
+                            seguir = 'n';
+                        }
 
-                case 2 -> {
+                    } while (seguir == 's');
 
-                    System.out.print("Ingresar numero de empleado (1-10): ");
+                    break;
+
+                // MODIFICAR
+                case 2:
+
+                    System.out.print("Numero empleado: ");
                     int pos = sc.nextInt() - 1;
 
-                    if (pos >= 0 && pos < 10 && empleados[pos][0] != null) {
+                    if (pos >= 0 && pos < cantidad) {
 
-                        System.out.print("Nuevo salario: ");
-                        pagos[pos][0] = sc.nextDouble();
+                        sc.nextLine();
 
-                        System.out.print("Nuevo prestamo: ");
-                        pagos[pos][1] = sc.nextDouble();
+                        System.out.print("Nuevo Depto: ");
+                        depto[pos] = sc.nextLine();
 
-                        calcularDescuentos(pagos, pos);
+                        System.out.print("Nuevo Nombre: ");
+                        nombre[pos] = sc.nextLine();
 
-                        System.out.println("Registro modificado correctamente.");
+                        System.out.print("Nuevo Apellido: ");
+                        apellido[pos] = sc.nextLine();
 
-                    } else {
-                        System.out.println("Empleado no valido.");
+                        System.out.print("Nuevo Salario: ");
+                        salario[pos] = sc.nextDouble();
+
+                        System.out.print("Nuevo Prestamo: ");
+                        prestamo[pos] = sc.nextDouble();
+
+                        System.out.print("Nuevo Año: ");
+                        anio[pos] = sc.nextInt();
+
+                        codigo[pos] = (pos + 1) + "-"
+                                + nombre[pos].toUpperCase().charAt(0)
+                                + apellido[pos].toUpperCase().charAt(0)
+                                + "-" + anio[pos];
+
+                        System.out.println("Modificado!");
                     }
-                }
 
-                case 3 -> {
+                    break;
 
-                    System.out.println("\n==============================================================================================================");
-                    System.out.printf("| %-10s | %-15s | %-12s | %-12s | %-10s | %-8s | %-8s | %-8s | %-8s | %-10s |\n",
-                            "COD", "DEP", "NOMBRE", "APELLIDO", "SALARIO", "PREST", "SFS", "AFP", "ISR", "NETO");
-                    System.out.println("==============================================================================================================");
+                // VER NOMINA
+                case 3:
 
-                    for (int i = 0; i < 10; i++) {
+                    System.out.println("\n================ NOMINA ===========================================================================================================");
 
-                        if (empleados[i][0] != null) {
+                    System.out.printf("%-10s %-12s %-10s %-10s %-10s %-7s %-7s %-7s %-7s %-8s %-10s %-10s\n",
+                            "CODIGO", "DEPTO", "NOMBRE", "APELLIDO", "SALARIO",
+                            "SFS", "SFSE", "AFP", "AFPE", "ISR", "TOT DESC", "S.TOTAL");
 
-                            System.out.printf("| %-10s | %-15s | %-12s | %-12s | %10.2f | %8.2f | %8.2f | %8.2f | %8.2f | %10.2f |\n",
-                                    empleados[i][0],
-                                    empleados[i][1],
-                                    empleados[i][2],
-                                    empleados[i][3],
-                                    pagos[i][0],
-                                    pagos[i][1],
-                                    pagos[i][2],
-                                    pagos[i][4],
-                                    pagos[i][6],
-                                    pagos[i][8]
-                            );
+                    for (int i = 0; i < cantidad; i++) {
 
-                            System.out.println("--------------------------------------------------------------------------------------------------------------");
+                        double sfs = salario[i] * 0.0304;
+                        double sfse = salario[i] * 0.0709;
+
+                        double afp = salario[i] * 0.0287;
+                         double afpe = salario[i] * 0.0710;
+
+                        double salarioISR = salario[i] - (sfs + afp);
+
+                        double salarioAnual = salarioISR * 12;
+                        double isrAnual = 0;
+
+                        if (salarioAnual <= 416220) {
+                            isrAnual = 0;
                         }
+                        else if (salarioAnual <= 624329) {
+                            isrAnual = (salarioAnual - 416220) * 0.15;
+                        }
+                        else if (salarioAnual <= 867123) {
+                            isrAnual = 31216 + (salarioAnual - 624329) * 0.20;
+                        }
+                        else {
+                            isrAnual = 79776 + (salarioAnual - 867123) * 0.25;
+                        }
+
+                        double isr = isrAnual / 12;
+
+                        double totalDesc = sfs + afp + sfse + afpe + isr + prestamo[i];
+                        double subTotal = salario[i] - totalDesc;
+
+                        System.out.printf("%-10s %-12s %-10s %-10s %-10.2f %-7.2f %-7.2f %-7.2f %-7.2f %-8.2f %-10.2f %-10.2f\n",
+                                codigo[i], depto[i], nombre[i], apellido[i],
+                                salario[i], sfs, sfse, afp, afpe, isr, totalDesc, subTotal);
+                        System.out.println("\n===========================================================================================================================");
+
                     }
-                }
 
-                case 4 -> System.out.println("Saliendo...");
+                    break;
 
-                default -> System.out.println("Opcion invalida.");
+                case 4:
+                    System.out.println("Hasta luego...");
+                    break;
             }
 
         } while (opcion != 4);
-
-        sc.close();
-    }
-
-    private static void calcularDescuentos(double[][] pagos, int i) {
-
-        double salario = pagos[i][0];
-
-        pagos[i][2] = salario * 3.04 / 100;
-        pagos[i][3] = salario * 7.09 / 100;
-        pagos[i][4] = salario * 2.87 / 100;
-        pagos[i][5] = salario * 7.10 / 100;
-
-        double salarioISR = salario - pagos[i][2] - pagos[i][4];
-
-        pagos[i][6] = salarioISR * 10 / 100;
-
-        pagos[i][7] = pagos[i][1] + pagos[i][2] + pagos[i][4] + pagos[i][6];
-
-        pagos[i][8] = salario - pagos[i][7];
     }
 }
